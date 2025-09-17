@@ -40,8 +40,8 @@ void setup(){
   delay(500);
 
   motors.init(PWM_A, A1_PIN, A2_PIN, PWM_B, B1_PIN, B2_PIN);
-  front_led.init(NUM_PIXELS, FRONT_LED, 255, 0, 0);
-  back_led.init(NUM_PIXELS, BACK_LED, 0, 0, 255);
+  // front_led.init(NUM_PIXELS, FRONT_LED, 255, 0, 0);
+  // back_led.init(NUM_PIXELS, BACK_LED, 0, 0, 255);
 
   LEFT_SPEED = data.getInt("L", 250);
   RIGHT_SPEED = data.getInt("R", 250);
@@ -52,7 +52,7 @@ void setup(){
 
 void loop(){
   time_now = get_time();
-  front_led.setColor(255, 0, 0);
+  // front_led.setColor(255, 0, 0);
 
   while(server.available()){
     last_check = time_now;
