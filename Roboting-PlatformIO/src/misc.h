@@ -5,21 +5,23 @@
 
 //=====================================
 //PINS
+#define VOLTAGE_PIN 35
+#define LOW_VOLTAGE_THRESHOLD 7.60
 
 //Left motor
-#define PWM_A 32
-#define A1_PIN 25
-#define A2_PIN 33
+#define ENABLE_L_PIN 32
+#define A1_PIN 14
+#define A2_PIN 27
 
 //Right motor
-#define PWM_B 14
-#define B1_PIN 26
-#define B2_PIN 27
+#define ENABLE_R_PIN 26
+#define B1_PIN 25 
+#define B2_PIN 33 
 
 //LEDS
 #define NUM_PIXELS 16
-#define FRONT_LED 19
-#define BACK_LED 18
+#define FRONT_LED 18
+#define BACK_LED 19
 
 //=====================================
 //MACROS / PARAMETERS / AUX FUNCTIONS

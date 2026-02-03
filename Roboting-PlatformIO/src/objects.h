@@ -5,30 +5,71 @@
 #include <Adafruit_NeoPixel.h>
 
 
+struct VoltageSensor{
+    int pin;
+    const float VOLTAGE_FACTOR = 5.018;
+    float pin_max_voltage = 3.3;
+    float resolution = 4095.0;
+    float drop = 0.14;
+
+    float current_reading;
+    float current_voltage;
+
+    VoltageSensor(){}
+
+    void init(int pin, float pin_max_voltage=-1, float resolution=-1, float drop=-1){
+        this->pin = pin;
+        pinMode(pin, INPUT);
+
+        if(pin_max_voltage != -1)
+            this->pin_max_voltage = pin_max_voltage;
+        if(resolution != -1)
+            this->resolution = resolution;
+        if(drop != -1)
+            this->drop = drop;
+    }
+
+    float get_voltage(){
+        current_reading = analogRead(pin);
+        current_voltage = (current_reading/resolution)*pin_max_voltage + drop;
+        Serial.println("PinVoltage: " + String(current_voltage) + "\tReading: " + String(current_reading) + "\n");
+        current_voltage *= VOLTAGE_FACTOR;
+        current_voltage = roundf(current_voltage*100.0) / 100.0;
+        return current_voltage;
+    }
+};
+
+
 struct MotorShield{
-    int left_pwm_pin, left_a_pin, left_b_pin;
-    int right_pwm_pin, right_a_pin, right_b_pin;
+    int left_enable_pin, left_a_pin, left_b_pin;
+    int right_enable_pin, right_a_pin, right_b_pin;
     int MAX_SPEED = 255;
+
+    int left_speed = 0;
+    int right_speed = 0;
 
     MotorShield(){}
 
     void init(int pwm_A, int a_1, int a_2, int pwm_B, int b_1, int b_2, int max_speed=255){
-        left_pwm_pin = pwm_A;
+        left_enable_pin = pwm_A;
         left_a_pin = a_1;
         left_b_pin = a_2;
         
-        right_pwm_pin = pwm_B;
+        right_enable_pin = pwm_B;
         right_a_pin = b_1;
         right_b_pin = b_2;
         
         MAX_SPEED = max_speed;
         
-        pinMode(left_pwm_pin, OUTPUT); pinMode(left_a_pin, OUTPUT); pinMode(left_b_pin, OUTPUT);
-        pinMode(right_pwm_pin, OUTPUT); pinMode(right_a_pin, OUTPUT); pinMode(right_b_pin, OUTPUT);
+        pinMode(left_enable_pin, OUTPUT); pinMode(left_a_pin, OUTPUT); pinMode(left_b_pin, OUTPUT);
+        pinMode(right_enable_pin, OUTPUT); pinMode(right_a_pin, OUTPUT); pinMode(right_b_pin, OUTPUT);
         stopMotors();
     }
 
+    
     void stopMotors(){
+        digitalWrite(left_enable_pin, LOW);
+        digitalWrite(right_enable_pin, LOW);
         controlMotors(0, 0);
     }
 
@@ -38,15 +79,29 @@ struct MotorShield{
 
         if(motor == 0){
             //Left
-            analogWrite(left_pwm_pin, speed);
-            digitalWrite(left_a_pin, !reverse);
-            digitalWrite(left_b_pin, reverse);
+            digitalWrite(left_enable_pin, HIGH);
+
+            if(!reverse){
+                analogWrite(left_a_pin, speed);
+                analogWrite(left_b_pin, 0);
+            }
+            else{
+                analogWrite(left_a_pin, 0);
+                analogWrite(left_b_pin, speed);             
+            }
         }
         else{
             //Right
-            analogWrite(right_pwm_pin, speed);
-            digitalWrite(right_a_pin, !reverse);
-            digitalWrite(right_b_pin, reverse);
+            digitalWrite(right_enable_pin, HIGH);
+
+            if(!reverse){
+                analogWrite(right_a_pin, speed);
+                analogWrite(right_b_pin, 0);
+            }
+            else{
+                analogWrite(right_a_pin, 0);
+                analogWrite(right_b_pin, speed);             
+            }
         }
     }
 
