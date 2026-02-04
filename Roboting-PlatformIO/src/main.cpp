@@ -48,9 +48,6 @@ void setup(){
 
 
 void loop(){
-  Serial.println("Current Voltage: " + String(vSensor.get_voltage()));
-  delay(100);
-  
   time_now = get_time();
   
   while(server.available()){
@@ -71,7 +68,6 @@ void handleCommand(String command){
   if(letter == 'S'){
       motors.stopMotors();
       running = false;
-      Serial.println("STOP!\n");
       return;
   }
 
@@ -80,19 +76,15 @@ void handleCommand(String command){
   {
   case 'F':
       motors.controlMotors(LEFT_SPEED, RIGHT_SPEED);
-      Serial.println("Forward!\n");
       break;
     case 'B':
       motors.controlMotors(-LEFT_SPEED, -RIGHT_SPEED);
-      Serial.println("Backwards!\n");
       break;
     case 'L':
       motors.controlMotors(-LEFT_SPEED, RIGHT_SPEED);
-      Serial.println("Turning Left!\n");
       break;
     case 'R':
       motors.controlMotors(LEFT_SPEED, -RIGHT_SPEED);
-      Serial.println("Turning right!\n");
       break;
     case 'Z':
       spin();

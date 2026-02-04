@@ -32,7 +32,6 @@ struct VoltageSensor{
     float get_voltage(){
         current_reading = analogRead(pin);
         current_voltage = (current_reading/resolution)*pin_max_voltage + drop;
-        Serial.println("PinVoltage: " + String(current_voltage) + "\tReading: " + String(current_reading) + "\n");
         current_voltage *= VOLTAGE_FACTOR;
         current_voltage = roundf(current_voltage*100.0) / 100.0;
         return current_voltage;
