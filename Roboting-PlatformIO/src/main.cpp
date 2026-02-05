@@ -38,8 +38,8 @@ void setup(){
   delay(500);
 
   motors.init(ENABLE_L_PIN, A1_PIN, A2_PIN, ENABLE_R_PIN, B1_PIN, B2_PIN);
-  // front_led.init(NUM_PIXELS, FRONT_LED, RED);
-  // back_led.init(NUM_PIXELS, BACK_LED, BLUE);
+  front_led.init(NUM_PIXELS, FRONT_LED, RED);
+  back_led.init(NUM_PIXELS, BACK_LED, BLUE);
   vSensor.init(VOLTAGE_PIN);
 
   Serial.println("Systems ready!\n");
