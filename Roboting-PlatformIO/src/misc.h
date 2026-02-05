@@ -6,7 +6,7 @@
 //=====================================
 //PINS
 #define VOLTAGE_PIN 35
-#define LOW_VOLTAGE_THRESHOLD 7.60
+#define LOW_VOLTAGE_THRESHOLD 7.3
 
 //Left motor
 #define ENABLE_L_PIN 32
@@ -31,6 +31,18 @@
 unsigned long get_time(){
     return (millis()%MAX_ARDUINO_TIME);
 }
+
+
+#define RED     255, 0, 0
+#define PINK    255, 20, 147  
+#define ORANGE  255, 40, 0   
+#define YELLOW  255, 100, 0 
+#define GREEN   0, 255, 0
+#define BLUE    0, 0, 255
+#define PURPLE  128, 0, 128   
+#define WHITE   255, 255, 255
+#define NO_COLOR -1, -1, -1
+#define OFF      0, 0, 0
 
 
 //=====================================
